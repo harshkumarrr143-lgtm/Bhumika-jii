@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Bhoomika 💖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .scratch-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .instruction {
+            color: #764ba2;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .scratch-area {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 0 auto;
+            position: relative;
+            border: 3px solid rgb(207, 109, 253);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 2px 6px 8px rgba(0,0,0,0.2);
+        }
+
+        .scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .message-container {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .letter {
+            display: inline-block;
+            font-size: 42px;
+            font-weight: bold;
+            font-family: cursive;
+            color: white;
+            opacity: 0;
+            transform: scale(0) rotate(-180deg);
+            text-shadow: 0 0 20px rgba(255,255,255,0.8);
+            margin: 0 2px;
+        }
+
+        .letter.show {
+            animation: letterPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes letterPop {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                transform: scale(1.2) rotate(10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .line {
+            margin-bottom: 10px;
+        }
+
+        .continue-btn {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: scale(0);
+            transition: all 0.3s;
+        }
+
+        .continue-btn.show {
+            animation: btnAppear 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.5s forwards;
+        }
+
+        @keyframes btnAppear {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .continue-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        .continue-btn:active {
+            transform: scale(0.95);
+        }
+
+        .celebration-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-size: cover;
+            background-repeat: no-repeat;
+            animation: gradientShift 5s ease infinite;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            overflow: hidden;
+        }
+       
+        .celebration-screen.active {
+            display: flex;
+        }
+
+        .final-message {
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+
+        .final-letter {
+            display: inline-block;
+            font-size: 56px;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateY(50px);
+            text-shadow: 0 0 30px rgba(255,255,255,0.9);
+            margin: 0 3px;
+        }
+
+        .final-letter.show {
+            animation: finalLetterReveal 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes finalLetterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 32px;
+            margin-top: 30px;
+            opacity: 0;
+        }
+
+        .subtitle.show {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 30px;
+            pointer-events: none;
+            animation: heartFloat 4s ease-in infinite;
+            opacity: 0;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                bottom: -50px;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(var(--drift)) rotate(360deg);
+            }
+        }
+
+        .running-heart {
+            position: absolute;
+            font-size: 35px;
+            animation: runAcross 5s linear infinite;
+            filter: drop-shadow(0 0 10px rgba(255,0,128,0.8));
+        }
+
+        @keyframes runAcross {
+            0% {
+                left: -60px;
+                transform: translateY(0) scale(1);
+            }
+            25% {
+                transform: translateY(-30px) scale(1.3);
+            }
+            50% {
+                transform: translateY(0) scale(1);
+            }
+            75% {
+                transform: translateY(-30px) scale(1.3);
+            }
+            100% {
+                left: 110%;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .petal {
+            position: absolute;
+            font-size: 30px;
+            animation: petalFall linear infinite;
+            opacity: 0.9;
+        }
+
+        @keyframes petalFall {
+            0% {
+                top: -50px;
+                transform: rotate(0deg) translateX(0);
+            }
+            25% {
+                transform: rotate(90deg) translateX(30px);
+            }
+            50% {
+                transform: rotate(180deg) translateX(-30px);
+            }
+            75% {
+                transform: rotate(270deg) translateX(30px);
+            }
+            100% {
+                top: 110%;
+                transform: rotate(360deg) translateX(0);
+            }
+        }
+
+        .sparkle-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confettiFall 4s linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                top: -10px;
+                transform: rotate(0deg);
+            }
+            100% {
+                top: 110%;
+                transform: rotate(720deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .letter {
+                font-size: 32px;
+            }
+            .final-letter {
+                font-size: 42px;
+            }
+            .scratch-area {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle-bg" id="sparkleBg"></div>
+
+    <div class="container">
+        <div class="scratch-section">
+            <div class="instruction" id="instruction">
+                ✨ Scratch to reveal the message ✨
+            </div>
+
+            <div class="scratch-area">
+                <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+                <div class="message-container" id="messageContainer">
+                    <div class="line">
+                        <span class="letter" data-letter="B">B</span>
+                        <span class="letter" data-letter="h">H</span>
+                        <span class="letter" data-letter="o">O</span>
+                        <span class="letter" data-letter="o">O</span>
+                        <span class="letter" data-letter="m">M</span>
+                        <span class="letter" data-letter="i">I</span>
+                        <span class="letter" data-letter="k">K</span>
+                        <span class="letter" data-letter="a">A</span>
+                    </div>
+                    <div class="line">
+                        <span class="letter" data-letter="I">S</span>
+                        <span class="letter" data-letter=" ">U </span>
+                        <span class="letter" data-letter="L">N</span>
+                        <span class="letter" data-letter="o">O</span>
+                        <span class="letter" data-letter="v"></span>
+                        <span class="letter" data-letter="v">!</span>
+                         <span class="letter" data-letter="v">!</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="continue-btn" id="continueBtn">Click Here ✨</button>
+        </div>
+    </div>
+
+    <div class="celebration-screen" id="celebrationScreen">
+        <div class="final-message">
+            <div>
+                <span class="final-letter">💖</span>
+                <span class="final-letter">I</span>
+                <span class="final-letter"></span>
+                <span class="final-letter">L</span>
+                <span class="final-letter">O</span>
+                <span class="final-letter">V</span>
+                <span class="final-letter">E</span>
+                <span class="final-letter"></span>
+                <span class="final-letter">Y</span>
+                <span class="final-letter">O</span>
+                <span class="final-letter">U</span>
+                <span class="final-letter">💖</span>
+            </div>
+            <p class="subtitle">You mean everything to me</p>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="fakira da.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        const instruction = document.getElementById('instruction');
+        const continueBtn = document.getElementById('continueBtn');
+        const celebrationScreen = document.getElementById('celebrationScreen');
+        const bgMusic = document.getElementById('bgMusic');
+        const letters = document.querySelectorAll('.letter');
+
+        let isScratching = false;
+        let hasRevealed = false;
+
+        // Set canvas size
+        const scratchArea = canvas.parentElement;
+        canvas.width = scratchArea.offsetWidth;
+        canvas.height = scratchArea.offsetHeight;
+
+        // Create scratch surface
+        function createScratchSurface() {
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#C471ED');
+            gradient.addColorStop(0.5, '#F64F59');
+            gradient.addColorStop(1, '#C471ED');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add sparkles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            for(let i = 0; i < 100; i++) {
+                ctx.beginPath();
+                ctx.arc(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height,
+                    Math.random() * 3 + 1,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+            }
+
+            // Add text
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = 'bold 28px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Scratch Here 💝', canvas.width / 2, canvas.height / 2);
+        }
+
+        createScratchSurface();
+
+        // Background sparkles
+        function createBackgroundSparkles() {
+            const sparkleBg = document.getElementById('sparkleBg');
+            for(let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 1.5 + 's';
+                sparkleBg.appendChild(sparkle);
+            }
+        }
+
+        createBackgroundSparkles();
+
+        // Play music
+        document.body.addEventListener('click', () => {
+            bgMusic.play().catch(e => console.log('Music failed'));
+        }, { once: true });
+
+        function getPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const touch = e.touches ? e.touches[0] : e;
+            return {
+                x: (touch.clientX - rect.left) * (canvas.width / rect.width),
+                y: (touch.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function scratch(x, y) {
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 80, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function checkReveal() {
+            if(hasRevealed) return;
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let cleared = 0;
+            
+            for(let i = 3; i < imageData.data.length; i += 4) {
+                if(imageData.data[i] < 10) cleared++;
+            }
+            
+            const progress = (cleared / (imageData.data.length / 4)) * 100;
+            
+            if(progress > 55) {
+                hasRevealed = true;
+                revealMessage();
+            }
+        }
+
+        function revealMessage() {
+            instruction.style.display = 'none';
+            canvas.style.transition = 'opacity 0.3s';
+            canvas.style.opacity = '0';
+            
+            setTimeout(() => {
+                canvas.style.display = 'none';
+                
+                // Reveal letters one by one
+                letters.forEach((letter, index) => {
+                    setTimeout(() => {
+                        letter.classList.add('show');
+                    }, index * 100);
+                });
+
+                // Show button after all letters
+                setTimeout(() => {
+                    continueBtn.classList.add('show');
+                }, letters.length * 100 + 500);
+            }, 500);
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', (e) => {
+            isScratching = true;
+            const pos = getPosition(e);
+            scratch(pos.x, pos.y);
+            checkReveal();
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if(isScratching) {
+                const pos = getPosition(e);
+                scratch(pos.x, pos.y);
+                checkReveal();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isScratching = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isScratching = false;
+        });
+
+        // Touch events
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isScratching = true;
+            const pos = getPosition(e);
+            scratch(pos.x, pos.y);
+            checkReveal();
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if(isScratching) {
+                const pos = getPosition(e);
+                scratch(pos.x, pos.y);
+                checkReveal();
+            }
+        });
+
+        canvas.addEventListener('touchend', () => {
+            isScratching = false;
+        });
+
+        // Continue button
+        continueBtn.addEventListener('click', () => {
+            celebrationScreen.classList.add('active');
+            startCelebration();
+        });
+
+        function startCelebration() {
+            const finalLetters = document.querySelectorAll('.final-letter');
+            const subtitle = document.querySelector('.subtitle');
+
+            // Reveal final message letters
+            finalLetters.forEach((letter, index) => {
+                setTimeout(() => {
+                    letter.classList.add('show');
+                }, index * 80);
+            });
+
+            // Show subtitle
+            setTimeout(() => {
+                subtitle.classList.add('show');
+            }, finalLetters.length * 80 + 500);
+
+            // Start all animations
+            createFloatingHearts();
+            createRunningHearts();
+            createPetals();
+            createConfetti();
+        }
+
+        function createFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = ['❤️', '💕', '💖', '💗', '💓', '💝'][Math.floor(Math.random() * 6)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                celebrationScreen.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 300);
+        }
+
+        function createRunningHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'running-heart';
+                heart.innerHTML = '💖';
+                heart.style.top = (Math.random() * 70 + 15) + '%';
+                heart.style.animationDuration = (Math.random() * 2 + 4) + 's';
+                celebrationScreen.appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }, 1000);
+        }
+
+        function createPetals() {
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerHTML = ['🌸', '🌺', '🌹', '🌷', '💐'][Math.floor(Math.random() * 5)];
+                petal.style.left = Math.random() * 100 + '%';
+                petal.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                celebrationScreen.appendChild(petal);
+                setTimeout(() => petal.remove(), 9000);
+            }, 400);
+        }
+
+        function createConfetti() {
+            setInterval(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = ['#ff0080', '#00ffff', '#ffff00', '#00ff00', '#ff00ff'][Math.floor(Math.random() * 5)];
+                confetti.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                celebrationScreen.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }, 200);
+        }
+    </script>
+</body>
+</html>
